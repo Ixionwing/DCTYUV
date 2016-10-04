@@ -1,0 +1,20 @@
+strawberry:
+
+Normal - 8.671
+DC only - 8.808
+DC+5AC - 8.702
+Q lum - 8.802
+
+boy:
+
+Normal - 5.3838
+DC only - 5.2339
+DC+5AC - 6.2504
+Q lum - 5.2357
+
+goldhill:
+
+Normal - 11.087
+DC only - 11.354
+DC+5AC - 11.178
+Q lum - 11.341
