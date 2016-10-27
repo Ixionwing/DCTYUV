@@ -67,9 +67,10 @@ public class Main{
             System.out.print("Which DCT mode would you like to use? ");
             mode = s.nextInt();
             
+            // for each 8x8 block, L->R, T->B
             for (int blockY = 0; blockY < (img.getHeight() + padY)/N; blockY++){
                 for (int blockX = 0; blockX < (img.getWidth() + padX)/N; blockX++){
-                
+                    // construct color matrix, applying white padding to the right/bottom of the image if size is not neatly divisible by 8
                     for (int y = blockY*N; y < (blockY+1)*N; y++){
                         for (int x = blockX*N; x < (blockX+1)*N; x++){
                             try{
@@ -80,11 +81,15 @@ public class Main{
                         }
                     }
                     
+                    // acquire YCbCr matrices
                     yArr = yuvObj.getY(tempArr);
                     cbArr = yuvObj.getCb(tempArr);
                     crArr = yuvObj.getCr(tempArr);
+                    
+                    // apply DCT to the Y image
                     tempArr = dctObj.forwardDCT(yArr, mode);
                     
+                    // write processed image
                     for (int y = blockY*N; y < (blockY+1)*N; y++){
                         for (int x = blockX*N; x < (blockX+1)*N; x++){
                             try{
@@ -94,6 +99,7 @@ public class Main{
                         }
                     }
                     
+                    // apply IDCT to processed Y image
                     tempArr = dctObj.inverseDCT(tempArr, mode);
                     
                     for (int y = blockY*N; y < (blockY+1)*N; y++){
@@ -105,6 +111,7 @@ public class Main{
                         }
                     }
                     
+                    // reconvert from YCbCr to RGB color space
                     tempArr = yuvObj.ycbcr2rgb(tempArr, cbArr, crArr);
                     
                     for (int y = blockY*N; y < (blockY+1)*N; y++){
@@ -149,21 +156,9 @@ public class Main{
                 
                 yArrFull = yuvObj.getY(img);
                 
-                /* for (int a = 312; a < 316; a++){
-                    for (int q = 282; q < 286; q++){
-                        System.out.print(yArrFull[a][q] + " ");
-                    }
-                    System.out.println();
-                }
-                
-                for (int a = 312; a < 316; a++){
-                    for (int q = 282; q < 286; q++){
-                        System.out.print(tempArrFull[a][q] + " ");
-                    }
-                    System.out.println();
-                } */
-                
+                // acquire PSNR between original and processed images
                 System.out.println("PSNR: " + dctObj.psnr(yArrFull, tempArrFull)); 
+                
             }   catch (IOException e) {
                 System.exit(0);
             }
@@ -187,12 +182,15 @@ public class Main{
                     filename += "_444";
             }
             
-            
+            // apply chroma sampling
             tempArrFull = yuvObj.sample(img,mode);
             
+            // acquire YUV components
             yArrFull = yuvObj.getY(tempArrFull);
             uArrFull = yuvObj.getU(tempArrFull);
             vArrFull = yuvObj.getV(tempArrFull);
+            
+            // write components to files
             tempArrFull = yuvObj.getGrayscale(yArrFull, null);
             
             for (int i = 0; i < img.getHeight(); i++){
@@ -235,6 +233,8 @@ public class Main{
                 System.exit(0);
             }
             
+            
+            // reconstruct image
             tempArrFull = yuvObj.yuv2rgb(yArrFull, uArrFull, vArrFull);
             
             for (int i = 0; i < img.getHeight(); i++){
@@ -249,6 +249,7 @@ public class Main{
                 System.exit(0);
             }
             
+            // diminish Y value incrementally
             for(int p = 2; p <= 8; p*=2){
                 yuvObj.div2(yArrFull);
                 

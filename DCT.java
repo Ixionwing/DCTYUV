@@ -255,7 +255,6 @@ public class DCT {
                     prevDC = inputData[r][c];
                 }
                 
-                // TODO: RLC all ACs at this step?
                 else
                     result = (inputData[r][c] / lumq[r][c]);
                     

@@ -1,0 +1,21 @@
+1. Open this folder in cmd (Command Prompt) or any terminal of your choice.
+2. If you don't have the Java runtime environment, install it.
+3. To run the program, type in "java Main" (case sensitive).
+4. Follow the instructions as displayed on the screen.
+
+A valid set of inputs would be as follows:
+
+strawberry 		// loads strawberry.bmp
+0			// selects the DCT set of operations
+1			// retains only DC values
+
+----------
+
+goldhill		// loads goldhill.bmp
+1			// selects the YUV set of operations
+2			// applies 4:2:0 chroma subsampling
+
+A video example of this program can be found in this link:
+https://www.youtube.com/watch?v=Ul5UbSWk-ow
+
+All possible inputs and outputs are shown here.
